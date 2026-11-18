@@ -5,7 +5,7 @@
 转成 **NInfer v3 容器**，在 **RTX 3090（sm_86）** 上跑通并跑满原生 **262,144** 上下文。
 
 - 🧠 模型文件（5.93 GB，HF）：[`qianchong666/nuofang-9b-ninfer-v3-q6head`](https://huggingface.co/qianchong666/nuofang-9b-ninfer-v3-q6head)
-- ⚙️ 引擎：本仓 [`Releases`](../../releases) 里的 `ninfer-serve-sm86-win-x64.zip`（747 MB，sm_86 exe + CRT）
+- ⚙️ 引擎：本仓 [`Releases`](../../releases) 里的 4 个分卷 `ninfer-serve-sm86-win-x64.7z.001…004`（合计 704 MB，sm_86 exe + CRT；7-Zip 打开 `.001` 自动合并解压）
 - 📊 实测：**132.4 tok/s @ 903 上下文**、122.4 @ 29k、**79.3 @ 254k**；llama.cpp 同件只有 76.8 / 64.9 / 25.2
 
 > ⚠️ 成人向（NSFW）内容，18+，仅限当地法律允许的用途。
@@ -66,7 +66,7 @@ HF 上只放**转换后的 NInfer 制品**（`nuofang-9b-ninfer-v3-q6head.ninfer
 ## 快速开始（Windows / RTX 3090）
 
 ```bat
-:: 1) 引擎：下载 Release 里的 ninfer-serve-sm86-win-x64.zip 并解压
+:: 1) 引擎：下载 Release 里全部 4 个分卷（.7z.001…004），用 7-Zip 打开 .001 解压（自动合并）
 :: 2) 补第三方 DLL（本仓不打包）：
 ::    CUDA 13.3 - cublasLt64_13.dll, cublas64_13.dll, cudart64_13.dll
 ::    FFmpeg   - avcodec-63, avformat-63, avutil-61, swscale-10, swresample-7

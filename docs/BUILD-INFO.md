@@ -111,3 +111,16 @@ ninfer-serve.exe nuofang-9b-ninfer-v3-q6head.ninfer ^
 | 29,033 | 3.39k tok/s | 122.4 tok/s | |
 | 253,783 | 2.23k tok/s | 79.3 tok/s | 满窗 262,144，无截断，VRAM 10.1 GB |
 | 903 + `--spec mtp --draft-tokens 3` | 1.38k tok/s | 120.4 tok/s | MTP 接受率 236/821 = 28.7%，仍比不开慢 |
+
+
+## 6. 发布用引擎包（多卷）
+
+单文件 747 MB 走代理上传会被掐（`curl: (56) Recv failure: Connection was reset`），所以发布时用 7-Zip 分卷：
+
+```bat
+"C:\Program Files-Zipz.exe" a -t7z -mx=9 -mmt=8 -v200m ^
+  ninfer-serve-sm86-win-x64.7z ninfer-serve.exe api-ms-win-crt-*.dll
+:: -> .7z.001 209.7 MB / .002 209.7 MB / .003 209.7 MB / .004 74.9 MB（合计 704 MB）
+```
+
+下载方只需用 7-Zip 打开 `.001` 解压，其余分卷自动串接。
