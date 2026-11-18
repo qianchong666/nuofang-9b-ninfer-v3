@@ -22,7 +22,7 @@ tags:
 
 # nuofang-9B-SLERP-F451 · NInfer v3 artifact（Q6 词表头，sm_86）
 
-> 项目主页（引擎构建产物 + 完整复现文档）：`https://github.com/<你的账号>/nuofang-9b-ninfer-v3`
+> 项目主页（引擎构建产物 + 完整复现文档）：https://github.com/qianchong666/nuofang-9b-ninfer-v3
 
 本仓**只有转换后的 NInfer 容器**，不含新训练权重、不含引擎。权重来自下面的原作者仓库，我们只做格式转换并在真机上验证。
 

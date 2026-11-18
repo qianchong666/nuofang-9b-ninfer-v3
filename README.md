@@ -4,7 +4,7 @@
 [`nuofang/Qwen3.8-9B-Distill-SLERP-F451-Pro-Writer-Uncensored`](https://huggingface.co/nuofang/Qwen3.8-9B-Distill-SLERP-F451-Pro-Writer-Uncensored)
 转成 **NInfer v3 容器**，在 **RTX 3090（sm_86）** 上跑通并跑满原生 **262,144** 上下文。
 
-- 🧠 模型文件（5.93 GB，HF）：见下文「模型地址」
+- 🧠 模型文件（5.93 GB，HF）：[`qianchong666/nuofang-9b-ninfer-v3-q6head`](https://huggingface.co/qianchong666/nuofang-9b-ninfer-v3-q6head)
 - ⚙️ 引擎：本仓 [`Releases`](../../releases) 里的 `ninfer-serve-sm86-win-x64.zip`（747 MB，sm_86 exe + CRT）
 - 📊 实测：**132.4 tok/s @ 903 上下文**、122.4 @ 29k、**79.3 @ 254k**；llama.cpp 同件只有 76.8 / 64.9 / 25.2
 
@@ -48,7 +48,7 @@
 ## 模型地址（Hugging Face）
 
 ```
-https://huggingface.co/<你的账号>/nuofang-9b-ninfer-v3-q6head
+https://huggingface.co/qianchong666/nuofang-9b-ninfer-v3-q6head
 ```
 
 HF 上只放**转换后的 NInfer 制品**（`nuofang-9b-ninfer-v3-q6head.ninfer`，5.93 GB）+ `conversion.json` + 模型卡；
