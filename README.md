@@ -121,3 +121,28 @@ A reproducible pipeline that runs the 9B Chinese NSFW/novel merge
   vs llama.cpp's 76.8 / 64.9 / 25.2 on the same card and weights.
 
 Artifact lives on Hugging Face (5.93 GB); the sm_86 engine binary is attached to Releases.
+
+## 7 采样参数：让每次写出来都不一样
+
+模型自带的 non-thinking 默认是 `temperature 0.70 / top_p 0.80 / presence_penalty 1.5`，
+中文创作容易套模板——同题六次，三次开头都是「沈砚踩碎积雪，靴底发出…」。
+
+实测对比（同题各 6 次；相似度 = 字符级 `SequenceMatcher` 两两平均，4-gram = 字面 4-gram Jaccard）：
+
+| 采样 | 两两相似度 | 4-gram 重合 | 平均长度 |
+|---|---:|---:|---:|
+| 旧默认 `0.70 / 0.80 / p1.5` | 0.241 | 0.037 | 161 |
+| **推荐 `1.00 / 0.95 / k20 / minp0.02 / p0.5 / f0.3`** | **0.204** | **0.011** | 160 |
+| 更野 `1.15`（同样惩罚） | 0.161 | 0.012 | 166 |
+
+起服时把默认值改掉（客户端不传采样参数时才生效）：
+
+```
+--temperature 1.0 --top-p 0.95 --top-k 20 --min-p 0.02 --presence-penalty 0.5 --frequency-penalty 0.3
+```
+
+- 想要更发散：`--temperature 1.15`；要更稳：`0.9`
+- `--seed` 默认每请求随机，这本身就是去雷同的一环；固定 seed 会让输出可复现，想要多样性就别固定
+- 客户端（如 Qoder / 各类前端）自己发 `temperature`/`top_p` 时**会覆盖**服务端默认
+- 本引擎的硬限制：`top_k` 只能 **0–20**（发 40 会 `400 top_k must be in [0,20]`）；`n>1`、`logprobs` 也不支持
+
