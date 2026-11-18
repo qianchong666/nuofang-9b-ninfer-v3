@@ -118,10 +118,21 @@ ninfer-serve.exe nuofang-9b-ninfer-v3-q6head.ninfer ^
 单文件 747 MB 走代理上传会被掐（`curl: (56) Recv failure: Connection was reset`），所以发布时用 7-Zip 分卷（实测 **>100 MB 的单卷会被代理重置**，64 MB 稳）：
 
 ```bat
-"C:\Program Files-Zipz.exe" a -t7z -mx=9 -mmt=8 -v64m ^
+"C:\Program Files\7-Zip\7z.exe" a -t7z -mx=9 -mmt=8 -v64m ^
   engine.7z ninfer-serve.exe api-ms-win-crt-*.dll
 :: -> engine.7z.001 ... .011（前 10 卷 67.1 MB，末卷 32.9 MB，合计 704 MB）
 :: 发布 asset 名前缀统一为 ninfer-serve-sm86-win-x64-engine.7z.0NN
 ```
 
 下载方只需用 7-Zip 打开 `.001` 解压，其余分卷自动串接。
+
+## 7. 客户端接入（以 Qoder 为例）
+
+```
+Base URL : http://127.0.0.1:<port>/v1      <- 小写 v1，不能少 1
+Model    : nuofang-9b                      <- 必须等于 GET /v1/models 里 id（全小写 b）
+API Key  : 任意非空（引擎默认 auth disabled，但空 key 有些客户端不发请求）
+```
+
+- Qoder 的配置在 `C:\Users\<user>\.qoder\settings.json` 的 `providers.qoder-custom-*` 块里，改完**重启 App** 才生效。
+- 现象对照：生成请求挂住但 `/v1/models` 秒回 → `--max-concurrency 1` 的槽被坏请求占住，重启引擎即可。
