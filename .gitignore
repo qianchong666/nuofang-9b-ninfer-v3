@@ -1,0 +1,8 @@
+# artifact lives on Hugging Face (5.9 GB) - never commit it
+*.ninfer
+*.gguf
+*.safetensors
+*.zip
+logs/
+__pycache__/
+*.pyc
