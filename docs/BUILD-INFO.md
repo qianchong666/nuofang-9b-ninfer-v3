@@ -115,12 +115,13 @@ ninfer-serve.exe nuofang-9b-ninfer-v3-q6head.ninfer ^
 
 ## 6. 发布用引擎包（多卷）
 
-单文件 747 MB 走代理上传会被掐（`curl: (56) Recv failure: Connection was reset`），所以发布时用 7-Zip 分卷：
+单文件 747 MB 走代理上传会被掐（`curl: (56) Recv failure: Connection was reset`），所以发布时用 7-Zip 分卷（实测 **>100 MB 的单卷会被代理重置**，64 MB 稳）：
 
 ```bat
-"C:\Program Files-Zipz.exe" a -t7z -mx=9 -mmt=8 -v200m ^
-  ninfer-serve-sm86-win-x64.7z ninfer-serve.exe api-ms-win-crt-*.dll
-:: -> .7z.001 209.7 MB / .002 209.7 MB / .003 209.7 MB / .004 74.9 MB（合计 704 MB）
+"C:\Program Files-Zipz.exe" a -t7z -mx=9 -mmt=8 -v64m ^
+  engine.7z ninfer-serve.exe api-ms-win-crt-*.dll
+:: -> engine.7z.001 ... .011（前 10 卷 67.1 MB，末卷 32.9 MB，合计 704 MB）
+:: 发布 asset 名前缀统一为 ninfer-serve-sm86-win-x64-engine.7z.0NN
 ```
 
 下载方只需用 7-Zip 打开 `.001` 解压，其余分卷自动串接。
